@@ -9,9 +9,11 @@ find_package(PostgreSQL REQUIRED)
 pkg_check_modules(LIBEVENT QUIET REQUIRED libevent)
 include_directories(${LIBEVENT_INCLUDE_DIRS} ${PostgreSQL_INCLUDE_DIR})
 
-add_executable(libpqevent main.c pqevent.c)
+add_library(pqevent SHARED pqevent.c)
 
 link_directories(${LIBEVENT_LIBRARY_DIRS})
-target_link_libraries(libpqevent event ${PostgreSQL_LIBRARY})
+target_link_libraries(pqevent event ${PostgreSQL_LIBRARY})
 
-install(TARGETS libpqevent RUNTIME DESTINATION bin)
+install(TARGETS pqevent LIBRARY DESTINATION lib)
+
+add_subdirectory(example)
